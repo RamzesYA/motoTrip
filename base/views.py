@@ -1,10 +1,10 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from base.forms import *
 from base.models import *
@@ -155,12 +155,15 @@ class TripView(DataMixin, TripRent, DetailView):
             res.isRentMoto = False
             res.price = Trip.objects.get(pk=self.kwargs['pk']).priceWOMoto
         res.save()
-        return redirect('/')
+        return redirect('book', res.pk)
 
 
-class BookView(CreateView):
-    form_class = AddBookForm
+class BookView(UpdateView):
+    model  = Reservation
     template_name = 'base/book.html'
+    success_url = reverse_lazy('home')
+    raise_exception = True
+    fields = ['uName', 'uSName', 'number', 'moreInfo']
 
 
 class MotoView(DetailView):

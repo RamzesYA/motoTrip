@@ -68,12 +68,7 @@
             <div class="reg-block">
                 <h3>БРОНИРОВАНИЕ</h3>
                 <ul>
-                    Дата
-                    <!-- <select name="dateId" class="listbox" id="listbox">
-                        {% for date in trip.date.all %}
-                            <option value="{{ date.pk }}">{{ date }}</option>
-                        {% endfor %}
-                    </select> -->                    
+                    Дата              
                     <select name="dateId" class="listbox" id="listbox">
                         {% for t in tour %}
                             {% if t.available > t.booked %}
@@ -99,6 +94,7 @@
             </div>
         </form> 
         {% else %}
+        <h3>БРОНИРОВАНИЕ</h3>
         <li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
         {% endif %}        
       </div>
