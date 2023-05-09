@@ -1,0 +1,45 @@
+.block-moto {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.block-moto-image {
+    width: 30%;
+    margin-right: 1rem;
+}
+
+.block-moto-content {
+    text-align: left;
+}
+
+.block-moto-list{
+    display: flex;
+    justify-content: space-between;
+}
+
+.block-moto-list li{
+    margin-right: 3px;
+}
+
+.elements{
+  margin: 4px 0;
+}
+
+.block-moto:hover{
+    color: red;
+}
+
+/* // */
+.filter_box {
+    margin: 10px 0;
+    text-align: left;
+}
+
+.block-search{
+    background-color: lightgray; 
+    position: fixed; 
+    right: 110px; 
+    width: 20%;
+    top: 20%;
+}

@@ -1,0 +1,109 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/tripInfo.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="top-block" style="background: url('https://www.rusmototravel.ru/sites/default/files/styles/tour_background/public/2020-05/IMG_3489small.jpg?itok=wzKw45wy')"> 
+        <div class="top-block__content">
+            <h1 class="top-block__title">{{ trip.name }}</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="left" style="width: 60%; float: left;">
+            <div class="text">
+                <div style="text-align: center;">
+                  <p>{{ trip.description }}</p>
+                </div>
+
+                <p>Основная информация</p>
+
+                <ul>
+                    <li>Тип путешествия: {{trip.type}}</li>
+                    <li>Уровень сложности: {{trip.lvl}}</li>
+                    <li>Длительность: {{trip.duration}} дней</li>
+                    <li>Протяженность маршрута: {{trip.length}} км</li>
+                    <li>Цена на воем мотоцикле: {{trip.priceWOMoto}}₽</li>
+                    <li>Цена с арендтой мотоцикла: {{trip.priceWMoto}}₽</li>
+                </ul>
+
+                <p>В стоимость <strong>входит:</strong></p>
+
+                <ul>
+                    <li>Проживание в гостиницах (двухместные номера)</li>
+                    <li>Завтраки</li>
+                    <li>Сопровождение</li>
+                    <li>Экскурсии</li>
+                    <li>Техническая поддержка</li>
+                </ul>
+
+                <p>В стоимость <strong>не входит:</strong></p>
+
+                <ul>
+                    <li>Бензин</li>
+                    <li>Обеды и ужины</li>
+                    <li>Медицинская страховка</li>
+                    <li>Прочие расходы</li>
+                </ul>
+            </div>
+        </div>
+      <div class="right">
+        <div class="date-block">
+          <h3>БЛИЖАЙШИЕ ДАТЫ</h3>
+          <ul class="list">
+            {% for t in tour %}
+                {% if t.available > t.booked %}
+                    <li><ins>{{ t.dateId }}</ins></li>
+                {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="line"></div>
+        {% if request.user.is_authenticated %}
+        <form method="post">
+             {% csrf_token %}
+            <div class="reg-block">
+                <h3>БРОНИРОВАНИЕ</h3>
+                <ul>
+                    Дата
+                    <!-- <select name="dateId" class="listbox" id="listbox">
+                        {% for date in trip.date.all %}
+                            <option value="{{ date.pk }}">{{ date }}</option>
+                        {% endfor %}
+                    </select> -->                    
+                    <select name="dateId" class="listbox" id="listbox">
+                        {% for t in tour %}
+                            {% if t.available > t.booked %}
+                                <option value="{{ t.dateId.pk }}">{{ t.dateId }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </ul>
+                <ul>
+                    Взять мотоцикл в аренду
+                    <input name="isrent" type="checkbox" id="checkbox" onclick="showListbox()">
+                </ul>
+                <ul style="display: none;" id="second_listbox">
+                    Мотоциклы
+                    <select name="mName" class="listbox">
+                        <option selected disabled>Выбрать</option>
+                        {% for moto in view.get_motoNames %}
+                            <option value="{{ moto.name }}">{{ moto.name }}</option>
+                        {% endfor %}
+                    </select>
+                </ul>
+                <input type="submit" value="Забронировать">
+            </div>
+        </form> 
+        {% else %}
+        <li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+        {% endif %}        
+      </div>
+    </div>    
+{% endblock %}
+{% block script %}
+<script src="{% static 'base/js/tripInfo.js' %}"></script>
+{% endblock %}

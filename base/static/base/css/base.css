@@ -1,0 +1,46 @@
+li {
+    list-style-type: none; /* Убираем маркеры */
+}
+
+a {
+  text-decoration: none;
+}
+
+body{
+  margin: 0px;
+}
+
+main{
+  width: 80%;
+  margin: auto;
+}
+
+.header {
+    background-color: #48a360;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo{
+    width: 70px;
+}
+
+figure{
+    margin: 0px 10px;
+}
+
+.nav-links a {
+    color: #2BBBAD;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+
+.nav-links{
+    display: flex;
+}
+
+.login {
+    color: #42A5F5;
+}

@@ -1,0 +1,52 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/motoInfo.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <h2>Moto</h2>
+    <div class="block">
+        <div class="block-moto">
+            <img class="block-moto-image" src="https://omoimot.ru/photos/14488596369762-Aprilia-RS4-SBK-125cc-4t-2016-m.jpg" alt="image">
+            <div class="block-moto-content">
+                <h1 class="block-moto-heading">{{moto.name}}</h1>
+                <p class="block-moto-text">///</p> 
+            </div>
+        </div>
+      <div class="table">
+        <table>
+          <tr>
+            <th>Название</th>
+            <th>{{ moto.name }}</th>
+          </tr>
+          <tr>
+            <td>Вес</td>
+            <td>{{ moto.weight }} кг</td>
+          </tr>
+          <tr>
+            <td>Тип запуска</td>
+            <td>{{ moto.launch }}</td>
+          </tr>
+          <tr>
+            <td>Высота сиденья</td>
+            <td>{{ moto.seatHeight }} мм</td>
+          </tr>
+          <tr>
+            <td>Емкость топливного бака</td>
+            <td>{{ moto.tankCapacity }} л</td>
+          </tr>
+          <tr>
+            <td>Объем двигателя</td>
+            <td>{{ moto.engineCapacity }} см³</td>
+          </tr>
+          <tr>
+            <td>Мощность двигателя</td>
+            <td>{{ moto.enginePower }} л.с.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+{% endblock %}

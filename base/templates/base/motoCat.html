@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/motoCat.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <h1 align="center">Мотоциклы</h1>
+    <ul>        
+        {% for moto in object_list %}
+            <li class="elements">
+                <a href="{{ moto.pk }}">
+                    <div class="block-moto">
+                        <img class="block-moto-image" src="https://omoimot.ru/photos/14488596369762-Aprilia-RS4-SBK-125cc-4t-2016-m.jpg" alt="image">
+                        <div class="block-moto-content">
+                            <h1 class="block-moto-heading">{{moto.name}}</h1>
+                            <ul class="block-moto-list">
+                                <li>{{moto.engineCapacity}} см³</li>
+                                <li>{{moto.enginePower}} л.с.</li>
+                                <li>{{moto.weight}} кг</li>
+                                <li>{{moto.tankCapacity}} л</li>
+                            </ul>
+                            <p class="block-moto-text">{{moto.launch}}</p> 
+                        </div>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form action="{% url 'mCatalog' %}" method="get">
+        <div class="block-search">
+            <ul class="filter_box">
+                <li>Марка</li>
+                <select name="mName">
+                    <option selected disabled>Выбрать</option>
+                    {% for moto_name in view.get_name %}
+                        <option value="{{ moto_name }}">{{ moto_name }}</option>
+                    {% endfor %}
+                </select>
+            </ul>
+            <ul class="filter_box">
+                <li>Объем двигателя</li>
+                <select name="capacity">
+                    <option selected disabled>Выбрать</option>
+                    {% for m in view.get_copacity %}
+                        <option value="{{ m.engineCapacity }}">{{ m.engineCapacity }} см³</option>
+                    {% endfor %}
+                </select>
+            </ul>
+            <input type="number" name="min_weight">
+            <input type="number" name="max_weight">
+            <input type="submit" value="Найти">
+        </div>
+    </form> 
+{% endblock %}

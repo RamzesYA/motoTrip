@@ -1,0 +1,53 @@
+.right{
+    width: 40%;
+    float: right;
+    text-align: center;    
+}
+
+.top-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 400px;
+}
+
+.top-block__content {
+    text-align: center;
+    margin-top: 70px;
+}
+
+.top-block__title {
+    margin: 0;
+    user-select: none;
+}
+
+.text li{
+    list-style-type: circle
+}
+
+/* /// */
+.listbox {
+    width: 130px;
+    height: 30px;
+}
+
+.date-block {
+    padding: 10px;
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
+
+.list{
+    padding: 0;
+}
+
+.right ul{
+    padding: 0;
+}
+
+.line {
+    border-bottom: 1px solid #f00;
+    width: 50%;
+    margin: 10px auto;
+}    

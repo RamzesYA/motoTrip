@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>	
+    {% block style %}
+    {% endblock %}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/base.css' %}"/>
+</head>
+<body>
+	<header class="header">
+	    <div>
+	    	<a href="{% url 'home' %}">
+		        <figure>
+		            <img class="logo" src="https://img.freepik.com/premium-vector/extreme-motocross-logo-vector-premium-vector_9583-63.jpg?w=826" alt="Logo">
+		        </figure>
+		    </a>	
+	    </div>
+	    <nav>
+	        <ul class="nav-links">
+	            <li><a href="{% url 'mCatalog' %}">Мотоциклы</a></li>
+	            <li><a href="{% url 'tCatalog' %}">Туры</a></li>
+	            <li><a href="#">Link 3</a></li>
+	            <li><a href="#">Link 4</a></li>
+	        </ul>
+	    </nav>
+		{% if request.user.is_authenticated %}
+			<li class="login"> <a href="{% url 'logout' %}">Выйти</a></li>
+		{% else %}
+			<li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+		{% endif %}
+	</header>
+    <main>
+    {% block content %}
+    {% endblock %}    	
+    </main>    
+    {% block script %}
+    {% endblock %} 
+</body>
+
+</html>
