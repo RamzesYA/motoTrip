@@ -15,6 +15,8 @@ class Moto(models.Model):
     tankCapacity = models.FloatField(verbose_name='Емкость топливного бака')
     engineCapacity = models.IntegerField(verbose_name='Объем двигателя')
     enginePower = models.FloatField(verbose_name='Мощность двигателя')
+    image = models.ImageField(upload_to='images/moto', blank=True)
+    description = models.TextField(verbose_name='Описание', default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -35,6 +37,7 @@ class Trip(models.Model):
     priceWOMoto = models.IntegerField(verbose_name='Цена на воем мотоцикле', default=None)
     priceWMoto = models.IntegerField(verbose_name='Цена с арендтой мотоцикла', default=None)
     type = models.CharField(max_length=255, choices=TripType.choices(), verbose_name='Тип путешествия', default=None)
+    image = models.ImageField(upload_to='images/trip', blank=True)
 
     def __str__(self):
         return self.name
@@ -86,9 +89,9 @@ class Reservation(models.Model):
     isRentMoto = models.BooleanField(verbose_name='Аренда', default=True)
     motoId = models.ForeignKey(Moto, on_delete=models.CASCADE, verbose_name="Мотоцикл", blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True, verbose_name="Время бронирования")
-    uName = models.CharField(max_length=50, verbose_name='Имя', blank=True)
-    uSName = models.CharField(max_length=50, verbose_name='Фамилия', blank=True)
-    number = PhoneNumberField(verbose_name='Номер телефона', blank=True)
+    uName = models.CharField(max_length=50, verbose_name='Имя')
+    uSName = models.CharField(max_length=50, verbose_name='Фамилия')
+    number = PhoneNumberField(verbose_name='Номер телефона')
     moreInfo = models.TextField(verbose_name='Дополнительная информация', blank=True)
 
     def __str__(self):
@@ -101,8 +104,7 @@ class Reservation(models.Model):
 
 @receiver(post_save, sender=Reservation)
 def addOneBooking(sender, instance, created, **kwargs):
-    if created:
-        tour = Tour.objects.get(pk=instance.tourId.pk)
-        if tour.booked < tour.available:
-            tour.booked += 1
-            tour.save()
+    tour = Tour.objects.get(pk=instance.tourId.pk)
+    if tour.booked < tour.available and len(instance.uName) != 0:
+        tour.booked += 1
+        tour.save()

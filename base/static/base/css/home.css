@@ -1,0 +1,78 @@
+.top-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    background-size: cover;
+    box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+}
+
+.top-block__content {
+    text-align: center;
+    margin-top: 70px;
+}
+
+.top-block__title {
+    margin: 0;
+    user-select: none;
+}
+
+.description{
+  width: 900px;
+  margin: auto;
+  text-align: center;    
+}
+
+.block-title {
+    width: 300px;
+    margin: auto;
+    text-align: center;
+    border: 1ps solid #CCC;
+    padding: 10px;
+}
+
+.block-header {
+    font-weight: bold;
+}
+
+.block-image {
+    width: 280px;
+    height: 200px;
+}
+
+.block-name {
+    font-weight: bold;
+}
+
+.block-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.block-row div {
+    padding: 0 5px;
+}
+
+.trip:hover,
+.moto:hover  {
+  font-weight: bold;
+  border: 3px solid #5ef048;
+  border-radius: 5px;
+}
+
+.moto p,
+.trip p  {
+    font-size: 1.3em;
+    color: black;
+}
+
+.trip:hover p,
+.moto:hover p {
+    font-size: 1.5em;
+    color: #5ef048;
+}
+
+.trip:hover .block-header,
+.moto:hover .block-header {
+  border-bottom: 3px solid #5ef048;
+}

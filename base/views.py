@@ -15,7 +15,13 @@ def pageNotFound(request, exception):
 
 
 def home(request):
-    return render(request, 'base/base.html')
+    trips = Trip.objects.all()[:3]
+    motos = Moto.objects.all()[:3]
+    context = {
+        'trips': trips,
+        'motos': motos,
+    }
+    return render(request, 'base/home.html', context=context)
 
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
@@ -159,7 +165,7 @@ class TripView(DataMixin, TripRent, DetailView):
 
 
 class BookView(UpdateView):
-    model  = Reservation
+    model = Reservation
     template_name = 'base/book.html'
     success_url = reverse_lazy('home')
     raise_exception = True

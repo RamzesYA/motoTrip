@@ -1,0 +1,61 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/home.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="top-block" style="background: url('https://glonasstravel.com/wp-content/uploads/2017/10/mototurizm.jpg')"> 
+        <div class="top-block__content">
+            <h1 class="top-block__title">Открывай новые горизонты с мототуризмом!</h1>
+        </div>
+    </div>
+    <div class="description">
+        <h2>Добро пожаловать на сайт мототуризма! Здесь Вы найдете все необходимое для поездки на мотоцикле. У нас можно просмотреть разные модели мотоциклов и сравнить их характеристики. Мы предоставляем готовые маршруты по России, а так же поможем Вам составить индивидуальное маршрутное планирование, индивидуально подстроенное под Ваши потребности. Присоединяйтесь к нам и наслаждайтесь приключениями на дороге!</h2>
+        <div class="trip">
+            <div class="block-title">
+                <div class="block-header">
+                    <a href="{% url 'tCatalog' %}" class="button">
+                        <p>Путешествия</p>
+                    </a>
+                </div>
+            </div>
+            <div class="block-row">
+                {% for tr in trips %}
+                    <div>
+                        <a href="{% url 'trip' tr.pk %}" class="button">
+                            {% if tr.image %}
+                                <img class="block-image" src="{{tr.image.url}}" alt="Image">
+                            {% endif %}
+                            <div class="block-name">{{ tr.name }}</div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="moto">
+            <div class="block-title">
+                <div class="block-header">
+                    <a href="{% url 'mCatalog' %}" class="button">
+                        <p>Мотоциклы</p>
+                    </a>
+                </div>
+            </div>
+            <div class="block-row">
+                {% for mt in motos %}
+                    <div>
+                        <a href="{% url 'moto' mt.pk %}" class="button">
+                            {% if mt.image %}
+                                <img class="block-image" src="{{mt.image.url}}" alt="Image">
+                            {% endif %}
+                            <div class="block-name">{{ mt.name }}</div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>  
+    </div>
+    
+{% endblock %}

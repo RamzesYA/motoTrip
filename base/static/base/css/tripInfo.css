@@ -50,4 +50,20 @@
     border-bottom: 1px solid #f00;
     width: 50%;
     margin: 10px auto;
-}    
+}  
+
+#rec523354651 ul{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+
+}  
+
+#rec523354651 li{
+    display: block;
+    text-align: center;
+}  
+
+#rec523354651 .t490__bgimg{
+    margin: 0 auto;
+} 

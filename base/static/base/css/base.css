@@ -8,6 +8,7 @@ a {
 
 body{
   margin: 0px;
+  background-color: #e0f5dc;
 }
 
 main{
@@ -16,10 +17,14 @@ main{
 }
 
 .header {
-    background-color: #48a360;
+    background-color: #79a280;  
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.nav {
+  background: #F8FaFF;    
 }
 
 .logo{
@@ -31,10 +36,16 @@ figure{
 }
 
 .nav-links a {
-    color: #2BBBAD;
+    color: #0D0C22;
     font-size: 1.2rem;
+    transition: color 0.2s;
     text-transform: uppercase;
     margin-left: 6px;
+}
+
+.nav-links li a:hover {
+  color: #adf542;
+  font-weight: bold;
 }
 
 .nav-links{
@@ -43,4 +54,27 @@ figure{
 
 .login {
     color: #42A5F5;
+}
+
+.login a {
+  text-decoration: none;
+  color: #0D0C22;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+  align-self: center;
+}
+
+.login a:hover {
+  color: #adf542;
+  font-weight: bold;
+  border: 1px solid #adf542;
+  border-radius: 5px;
+}
+
+.header ul {
+    padding: 0;
+}
+
+.header li {
+    padding: 0 10px;
 }
