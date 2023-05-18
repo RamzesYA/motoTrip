@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponseNotFound, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
 from base.forms import *
@@ -46,6 +47,9 @@ class TripFilter:
     def get_duration(self):
         durations = Trip.objects.values("duration")
         return set([duration['duration'] for duration in durations])
+
+    def get_type(self):
+        return TripType.choices()
 
 
 class TripRent:
@@ -93,6 +97,7 @@ class TripCatalog(DataMixin, TripFilter, ListView):
     def get_queryset(self):
         lvl = self.request.GET.get("t_lvl")
         duration = self.request.GET.get("t_duration")
+        type = self.request.GET.get("t_type")
         trip = Trip.objects.all()
 
         if lvl:
@@ -100,6 +105,9 @@ class TripCatalog(DataMixin, TripFilter, ListView):
 
         if duration:
             trip = trip.filter(duration=duration)
+
+        if type:
+            trip = trip.filter(type=type)
 
         return trip
 
@@ -148,7 +156,6 @@ class TripView(DataMixin, TripRent, DetailView):
         date = self.request.POST.get("dateId")
         rent = self.request.POST.get("isrent")
         moto = self.request.POST.get("mName")
-        print(moto)
 
         res = Reservation()
         res.tourId = Tour.objects.get(tripId=Trip.objects.get(pk=self.kwargs['pk']), dateId=date)
@@ -161,15 +168,7 @@ class TripView(DataMixin, TripRent, DetailView):
             res.isRentMoto = False
             res.price = Trip.objects.get(pk=self.kwargs['pk']).priceWOMoto
         res.save()
-        return redirect('book', res.pk)
-
-
-class BookView(UpdateView):
-    model = Reservation
-    template_name = 'base/book.html'
-    success_url = reverse_lazy('home')
-    raise_exception = True
-    fields = ['uName', 'uSName', 'number', 'moreInfo']
+        return redirect('/')
 
 
 class MotoView(DetailView):
@@ -177,3 +176,61 @@ class MotoView(DetailView):
     template_name = 'base/motoInfo.html'
     pk_url_kwarg = 'pk'
     context_object_name = 'moto'
+
+
+class ProfileView(DetailView, DataMixin):
+    model = User
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = 'base/profile.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Тур")
+        context['prof'] = Profile.objects.get(user=context['object'])
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def post(self, request, username):
+        fName = self.request.POST.get("fName")
+        sName = self.request.POST.get("sName")
+        number = self.request.POST.get("number")
+
+        u = User.objects.get(username=username)
+        p = Profile.objects.get(user=u)
+
+        if fName and fName != 'Введите имя' and fName != u.first_name:
+            u.first_name = fName
+
+        if sName and sName != 'Введите фамилию' and sName != u.last_name:
+            u.last_name = sName
+
+        u.save()
+
+        if number and number != 'Введите номер телефона' and number != p.phone:
+            p.phone = number
+            p.save()
+
+        return redirect('profile', username)
+
+
+class NewsListView(ListView):
+    model = News
+    template_name = 'base/nCat.html'
+
+
+class NewsDetailView(DetailView):
+    model = News
+    template_name = 'base/news.html'
+    pk_url_kwarg = 'pk'
+    context_object_name = 'news'
+
+    def post(self, request, pk):
+        content = self.request.POST.get("content")
+
+        news = News.objects.get(pk=pk)
+
+        news.comments.create(author=Profile.objects.get(pk=request.user.pk),
+                             content=content)
+        news.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))

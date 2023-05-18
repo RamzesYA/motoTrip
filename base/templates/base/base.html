@@ -23,13 +23,17 @@
 	        <ul class="nav-links">
 	            <li><a href="{% url 'mCatalog' %}">Мотоциклы</a></li>
 	            <li><a href="{% url 'tCatalog' %}">Туры</a></li>
-	            <li><a href="">О компании</a></li>
+	            <li><a href="{% url 'nCat' %}">Новости</a></li>
 	        </ul>
 	    </nav>
 		{% if request.user.is_authenticated %}
-			<li class="login"> <a href="{% url 'logout' %}">Выйти</a></li>
+			<li class="login">
+				<a href="{% url 'profile' request.user.username %}">{{request.user}}</a> | <a href="{% url 'logout' %}">Выйти</a>
+			</li>
 		{% else %}
-			<li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+			<li class="login">
+				<a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+			</li>
 		{% endif %}
 	</header>
     <main>

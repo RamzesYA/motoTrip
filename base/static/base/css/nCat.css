@@ -1,0 +1,27 @@
+.news-block {
+  max-width: 60%;
+  margin: 5px auto;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+  color: black;
+}
+
+.news-block:hover {
+  background-color: #a3e3b4;
+}
+
+.news-block h2{
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+img {
+  width: 100%;
+}
+
+.date {
+  text-align: right;
+  margin: 3px;
+}

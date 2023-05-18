@@ -1,5 +1,5 @@
 li {
-    list-style-type: none; /* Убираем маркеры */
+    list-style-type: none;
 }
 
 a {
@@ -28,11 +28,11 @@ main{
 }
 
 .logo{
-    width: 70px;
+    height: 70px;
 }
 
 figure{
-    margin: 0px 10px;
+    margin: 0px 0px 0px 10px;
 }
 
 .nav-links a {
@@ -53,7 +53,7 @@ figure{
 }
 
 .login {
-    color: #42A5F5;
+    color: black;
 }
 
 .login a {

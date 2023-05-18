@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/profile.css' %}"/>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <h2 class="u-login">Логин: {{ user.username }}</h2>
+
+    {% if user.email %}
+      <div class="block">
+        <p class="u-data">Почта:</p>
+        <input name="mail" value="{{ user.user.email }}"></input>
+      </div>  
+    {% else %}
+      <div class="block">
+        <p class="u-data">Почта:</p>
+        <input name="mail" value="Введите почту"></input>
+      </div>  
+    {% endif %}
+
+    {% if user.first_name %}
+      <div class="block">
+        <p class="u-data">Имя:</p>
+        <input name="fName" value="{{ user.first_name }}"></input>
+      </div>  
+    {% else %}
+      <div class="block">
+        <p class="u-data">Имя:</p>
+        <input name="fName" value="Введите имя"></input>
+      </div>  
+    {% endif %}
+
+    {% if user.last_name %}
+      <div class="block">
+        <p class="u-data">Фамилия:</p>
+        <input type="text" name="sName" value="{{ user.last_name }}"></input>
+      </div>  
+    {% else %}
+      <div class="block">
+        <p class="u-data">Фамилия:</p>
+        <input type="text" name="sName" value="Введите фамилию"></input>
+      </div>  
+    {% endif %}
+
+    {% if prof.phone %}
+      <div class="block">
+        <p class="u-data">Номер телефона:</p>
+        <input type="text" name="number" value="{{ prof.phone }}"></input>
+      </div>  
+    {% else %}
+      <div class="block">
+        <p class="u-data">Номер телефона:</p>
+        <input type="text" name="number" value="Введите номер телефона"></input>
+      </div>  
+    {% endif %}
+    <button type="submit">Именить</button>
+  </form>
+{% endblock %}

@@ -52,9 +52,16 @@
                     {% endfor %}
                 </select>
             </ul>
-            <input type="number" name="min_weight">
-            <input type="number" name="max_weight">
+            <ul class="filter_box">
+                <li>Минимальный вес</li>
+                <input type="number" name="min_weight">
+            </ul>
+            <ul class="filter_box">
+                <li>Макесимальный вес</li>
+                <input type="number" name="max_weight">
+            </ul>
             <input type="submit" value="Найти">
+            <br>
         </div>
     </form> 
 {% endblock %}

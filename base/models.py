@@ -7,6 +7,26 @@ from phonenumber_field.modelfields import PhoneNumberField
 from base.enums import *
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = PhoneNumberField(verbose_name='Номер телефона', blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+
+@receiver(post_save, sender=User)
+def addNewProfile(sender, instance, created, **kwargs):
+    if created:
+        profile = Profile()
+        profile.user = instance
+        profile.save()
+
+
 class Moto(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     weight = models.IntegerField(verbose_name='Вес')
@@ -89,9 +109,6 @@ class Reservation(models.Model):
     isRentMoto = models.BooleanField(verbose_name='Аренда', default=True)
     motoId = models.ForeignKey(Moto, on_delete=models.CASCADE, verbose_name="Мотоцикл", blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True, verbose_name="Время бронирования")
-    uName = models.CharField(max_length=50, verbose_name='Имя')
-    uSName = models.CharField(max_length=50, verbose_name='Фамилия')
-    number = PhoneNumberField(verbose_name='Номер телефона')
     moreInfo = models.TextField(verbose_name='Дополнительная информация', blank=True)
 
     def __str__(self):
@@ -104,7 +121,35 @@ class Reservation(models.Model):
 
 @receiver(post_save, sender=Reservation)
 def addOneBooking(sender, instance, created, **kwargs):
-    tour = Tour.objects.get(pk=instance.tourId.pk)
-    if tour.booked < tour.available and len(instance.uName) != 0:
+    if created:
+        tour = Tour.objects.get(pk=instance.tourId.pk)
         tour.booked += 1
         tour.save()
+
+
+class Comments(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name="Автор")
+    content = models.TextField(verbose_name='Информация', default=None, max_length=200)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    def __str__(self):
+        return self.content
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+
+class News(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Заголовок')
+    content = models.TextField(verbose_name='Информация', default=None)
+    image = models.ImageField(upload_to='images/news', blank=True)
+    date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    comments = models.ManyToManyField(Comments, verbose_name="Коментарий", blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'

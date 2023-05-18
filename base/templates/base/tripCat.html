@@ -8,29 +8,6 @@
 
 {% block content %}
     <h1 align="center">Туры</h1>
-    <ul>
-        {% for trip in object_list %}
-            <li class="elements">
-                <a href="{{ trip.pk }}">
-                    <div class="block-trip">
-                      <div class="image-container">
-                        <img src="{{trip.image.url}}" alt="Image">
-                      </div>
-                      <div class="text-container">
-                        <p class="title">{{trip.name}}</p>
-                        <p class="description">{{trip.description}}</p>
-                        <ul>
-                          <li class="list-item">Продолжительность: {{trip.duration}} дн.</li>
-                          <li class="list-item">Цена: {{trip.priceWMoto}}₽</li>
-                          <li class="list-item">Дальность: {{trip.length}} км</li>
-                        </ul>
-                      </div>
-                    </div>
-                </a>    
-            </li>   
-        {% endfor %}
-    </ul>       
-
     <form action="{% url 'tCatalog' %}" method="get">
         <div class="block-search">
             <ul class="filter_box">
@@ -51,7 +28,39 @@
                     {% endfor %}
                 </select>
             </ul>
+            <ul class="filter_box">
+                <li>Тип путешествия</li>
+                <select name="t_type">
+                    <option selected disabled>Выбрать</option>
+                    {% for type in view.get_type %}
+                        <option value="{{ type.0 }}">{{ type.1 }}</option>
+                    {% endfor %}
+                </select>
+            </ul>
             <input type="submit" value="Найти">
+            <br>
         </div>
     </form> 
+    <ul class="cat">
+        {% for trip in object_list %}
+            <li class="elements">
+                <a href="{{ trip.pk }}">
+                    <div class="block-trip">
+                      <div class="image-container">
+                        <img src="{{trip.image.url}}" alt="Image">
+                      </div>
+                      <div class="text-container">
+                        <p class="title">{{trip.name}}</p>
+                        <p class="description">{{trip.description}}</p>
+                        <ul>
+                          <li class="list-item">Продолжительность: {{trip.duration}} дн.</li>
+                          <li class="list-item">Дальность: {{trip.length}} км</li>
+                          <li class="list-item">Цена: {{trip.priceWMoto}}₽</li>
+                        </ul>
+                      </div>
+                    </div>
+                </a>    
+            </li>   
+        {% endfor %}
+    </ul>       
 {% endblock %}
