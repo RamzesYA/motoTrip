@@ -1,3 +1,12 @@
+a {
+    color: black;
+    font-size: 18px;
+}
+
+a:hover {
+    color: #5ef048;
+}
+
 .top-block {
     width: 100%;
     display: flex;
@@ -68,7 +77,6 @@
 
 .trip:hover p,
 .moto:hover p {
-    font-size: 1.5em;
     color: #5ef048;
 }
 

@@ -50,7 +50,7 @@ class Moto(models.Model):
 class Trip(models.Model):
     name = models.CharField(max_length=150, verbose_name='Название')
     description = models.TextField(verbose_name='Описание', default=None)
-    date = models.ManyToManyField('Dates', verbose_name='Даты', default=None)
+    date = models.ManyToManyField('Dates', verbose_name='Даты', default=None, blank=True)
     duration = models.IntegerField(verbose_name='Длительность', default=None)
     length = models.IntegerField(verbose_name='Протяженность маршрута', default=None)
     lvl = models.CharField(max_length=255, choices=LvlType.choices(), verbose_name='Уровень сложности', default=None)

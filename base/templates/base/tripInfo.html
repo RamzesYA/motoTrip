@@ -7,18 +7,49 @@
 {% endblock %}
 
 {% block content %}
+    <h1 class="top-block__title">{{ trip.name }}</h1>
     {% if trip.image %}
         <div class="top-block" style="background: url('{{trip.image.url}}')"> 
-            <div class="top-block__content">
-                <h1 class="top-block__title">{{ trip.name }}</h1>
-            </div>
         </div>
     {% endif %}
-    <div id="rec523354651" class="r t-rec t-rec_pt_45 t-rec_pb_45" style="padding-top:45px;padding-bottom:45px;background-color:#222c3c; " data-record-type="490" data-bg-color="#222c3c" data-animationappear="off"><!-- t490 --><div class="t490"><ul class="t490__container t-container"><li class="t-cards__col t490__col t-col t-col_3 t-align_center t-item"><div class="t490__bgimg t-margin_auto t-bgimg loaded" bgimgfield="li_img__1476968690512" data-original="https://static.tildacdn.com/tild6462-6238-4161-a236-353064366537/calendar_1.png" style="width: 50px; height: 50px; background-image: url(&quot;https://thumb.tildacdn.com/tild6462-6238-4161-a236-353064366537/-/cover/60x60/center/center/-/format/webp/calendar_1.png&quot;);" itemscope="" itemtype="http://schema.org/ImageObject"><meta itemprop="image" content="https://static.tildacdn.com/tild6462-6238-4161-a236-353064366537/calendar_1.png"></div><div class="t490__wrappercenter "><div class="t-heading t-heading_md" style="color:#ffffff;font-size:18px;font-weight:400;" field="li_title__1476968690512">Даты 2023</div><div class="t-descr t-descr_xs" style="color:#ffffff;font-size:16px;" field="li_descr__1476968690512"><div style="font-size:16px;" data-customstyle="yes">4-10 мая<br>18-24 июня<br>14-20 августа<br>7-13 сентября<br> 23-29 сентября</div></div></div></li><li class="t-cards__col t490__col t-col t-col_3 t-align_center t-item"><div class="t490__bgimg t-margin_auto t-bgimg loaded" bgimgfield="li_img__1525770223471" data-original="https://static.tildacdn.com/tild6236-3733-4239-b961-636533393037/timer.png" style="width: 50px; height: 50px; background-image: url(&quot;https://thumb.tildacdn.com/tild6236-3733-4239-b961-636533393037/-/cover/60x60/center/center/-/format/webp/timer.png&quot;);" itemscope="" itemtype="http://schema.org/ImageObject"><meta itemprop="image" content="https://static.tildacdn.com/tild6236-3733-4239-b961-636533393037/timer.png"></div><div class="t490__wrappercenter "><div class="t-heading t-heading_md" style="color:#ffffff;font-size:18px;font-weight:400;" field="li_title__1525770223471">Продолжительность</div><div class="t-descr t-descr_xs" style="color:#ffffff;font-size:16px;" field="li_descr__1525770223471">7 дней / 6 ночей<br>5 дней на мото <br></div></div></li><li class="t-cards__col t490__col t-col t-col_3 t-align_center t-item"><div class="t490__bgimg t-margin_auto t-bgimg loaded" bgimgfield="li_img__1476968700508" data-original="https://static.tildacdn.com/tild6437-3935-4934-a565-633836383062/delivery.png" style="width: 50px; height: 50px; background-image: url(&quot;https://thumb.tildacdn.com/tild6437-3935-4934-a565-633836383062/-/cover/60x60/center/center/-/format/webp/delivery.png&quot;);" itemscope="" itemtype="http://schema.org/ImageObject"><meta itemprop="image" content="https://static.tildacdn.com/tild6437-3935-4934-a565-633836383062/delivery.png"></div><div class="t490__wrappercenter "><div class="t-heading t-heading_md" style="color:#ffffff;font-size:18px;font-weight:400;" field="li_title__1476968700508">Протяженность</div><div class="t-descr t-descr_xs" style="color:#ffffff;font-size:16px;" field="li_descr__1476968700508">700 км на мотоцикле<br>ежедневный пробег<br>от 50 до 150 км</div></div></li><li class="t-cards__col t490__col t-col t-col_3 t-align_center t-item"><div class="t490__bgimg t-margin_auto t-bgimg loaded" bgimgfield="li_img__1476968722790" data-original="https://static.tildacdn.com/tild6665-6131-4563-a633-643765356536/group.png" style="width: 50px; height: 50px; background-image: url(&quot;https://thumb.tildacdn.com/tild6665-6131-4563-a633-643765356536/-/cover/60x60/center/center/-/format/webp/group.png&quot;);" itemscope="" itemtype="http://schema.org/ImageObject"><meta itemprop="image" content="https://static.tildacdn.com/tild6665-6131-4563-a633-643765356536/group.png"></div><div class="t490__wrappercenter "><div class="t-heading t-heading_md" style="color:#ffffff;font-size:18px;font-weight:400;" field="li_title__1476968722790">Группа</div><div class="t-descr t-descr_xs" style="color:#ffffff;font-size:16px;" field="li_descr__1476968722790">6-8 участников<br>1 гид<br>1 механик</div></div></li></ul></div><script>t_onReady(function () {
-t_onFuncLoad('t490_init', function () {
-t490_init('523354651');
-});
-});</script></div>
+    <div class="list-item">
+        <ul class="elements">
+            <li class="element">
+                <img src="https://cdn-icons-png.flaticon.com/512/55/55281.png">
+                <h3>Даты</h3>
+                <ul>
+                    {% for t in tour|dictsort:'dateId.dateStart' %}
+                        {% if t.available > t.booked %}
+                            <li>{{ t.dateId }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="element">
+                <img src="https://cdn-icons-png.flaticon.com/512/66/66163.png" alt="Image">
+                <h3>Продолжительность</h3>
+                <ul>
+                    <li>{{trip.duration}} дней</li>
+                </ul>
+            </li>
+            <li class="element">
+                <img src="https://cdn-icons-png.flaticon.com/512/1179/1179054.png" alt="Image">
+                <h3>Протяженность</h3>
+                <ul>
+                    <li>{{trip.length}} км на мотоцикле</li>
+                </ul>
+            </li>
+            <li class="element">
+                <img src="https://cdn-icons-png.flaticon.com/512/1341/1341578.png" alt="Image">
+                <h3>Группа</h3>
+                <ul>
+                    <li>{{ tour.all.0.available }} участников</li>
+                    <li>1 гид</li>
+                    <li>1 механик</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
     <div class="container">
         <div class="left" style="width: 60%; float: left;">
             <div class="text">
@@ -108,5 +139,5 @@ t490_init('523354651');
     </div>    
 {% endblock %}
 {% block script %}
-<script src="{% static 'base/js/tripInfo.js' %}"></script>
+    <script src="{% static 'base/js/tripInfo.js' %}"></script>
 {% endblock %}

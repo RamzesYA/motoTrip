@@ -15,12 +15,14 @@
         {% endif %}
         <p class="date">{{ news.date|date:'d.m.y h:i' }}</p>
       <div class="comments">
-        <h2>Комментарии</h2>
-        <form method="post">
-            {% csrf_token %}
-            <input class="text" name="content"></input>
-            <input class="but" type="submit" value="Add comment">
-        </form>                
+        <h2>Комментарии</h2>        
+        {% if request.user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <input class="text" name="content"></input>
+                <input class="but" type="submit" value="Add comment">
+            </form>           
+        {% endif %}     
         {% for comment in news.comments.all %}                    
             <div class="comment">
                 <p><strong><em>{{ comment.author }}, {{ comment.date }}</em></strong></p>

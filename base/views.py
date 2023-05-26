@@ -1,11 +1,12 @@
-from django.contrib.auth import login, logout
+import re
+
+from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
-from django.db.models import Q
-from django.http import HttpResponseNotFound, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView
+from django.core.mail import send_mail
 
 from base.forms import *
 from base.models import *
@@ -164,10 +165,19 @@ class TripView(DataMixin, TripRent, DetailView):
             res.isRentMoto = True
             res.price = Trip.objects.get(pk=self.kwargs['pk']).priceWMoto
             res.motoId = Moto.objects.get(name__icontains=moto)
+            message = f'''Спасибо что выбрали нашу компанию.\n 
+                            Вы успешно оставили заявку на тур {str(res.tourId.tripId.name).title()}\n
+                            Дата выезда: {res.tourId.dateId.dateStart}, мотоцикл: {str(res.motoId).title()}, стоимость: {res.price} рублей.'''
         else:
             res.isRentMoto = False
             res.price = Trip.objects.get(pk=self.kwargs['pk']).priceWOMoto
+            message = f'''Спасибо что выбрали нашу компанию.\n 
+                            Вы успешно оставили заявку на тур {str(res.tourId.tripId.name).title()}\n
+                            Дата выезда: {res.tourId.dateId.dateStart}, стоимость: {res.price} рублей.'''
         res.save()
+        subject = f'{str(res.userId).title()}, заявка на тур {str(res.tourId.tripId.name).title()} успешно принята!'
+        to_email = res.userId.email
+        send_mail(subject=subject, message=message, from_email='roma.efremov.2002@gmail.com', recipient_list=[to_email])
         return redirect('/')
 
 
@@ -191,6 +201,7 @@ class ProfileView(DetailView, DataMixin):
         return dict(list(context.items()) + list(c_def.items()))
 
     def post(self, request, username):
+        mail = self.request.POST.get("mail")
         fName = self.request.POST.get("fName")
         sName = self.request.POST.get("sName")
         number = self.request.POST.get("number")
@@ -198,15 +209,19 @@ class ProfileView(DetailView, DataMixin):
         u = User.objects.get(username=username)
         p = Profile.objects.get(user=u)
 
-        if fName and fName != 'Введите имя' and fName != u.first_name:
+        if mail and mail != 'Введите почту' and mail != u.email:
+            u.email = mail
+
+        pattern = r'^[а-яА-ЯёЁ]+$'
+        if re.fullmatch(pattern, fName) and fName != 'Введите имя' and fName != u.first_name:
             u.first_name = fName
 
-        if sName and sName != 'Введите фамилию' and sName != u.last_name:
+        if re.fullmatch(pattern, sName) and sName != 'Введите фамилию' and sName != u.last_name:
             u.last_name = sName
 
         u.save()
-
-        if number and number != 'Введите номер телефона' and number != p.phone:
+        pattern = r'^((\+7|7|8)+([0-9]){10})$'
+        if re.fullmatch(pattern, number) and number != 'Введите номер телефона' and number != p.phone:
             p.phone = number
             p.save()
 
