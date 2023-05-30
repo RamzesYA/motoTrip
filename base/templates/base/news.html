@@ -20,7 +20,7 @@
             <form method="post">
                 {% csrf_token %}
                 <input class="text" name="content"></input>
-                <input class="but" type="submit" value="Add comment">
+                <input class="but" type="submit" value="Отправить">
             </form>           
         {% endif %}     
         {% for comment in news.comments.all %}                    

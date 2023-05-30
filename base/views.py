@@ -1,4 +1,5 @@
 import re
+from datetime import date
 
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
@@ -56,6 +57,11 @@ class TripFilter:
 class TripRent:
     def get_motoNames(self):
         return Moto.objects.values("name")
+
+
+class DateMixin:
+    def get_now_day(self):
+        return date.today()
 
 
 class DataMixin:
@@ -141,7 +147,7 @@ class MotoCatalog(MotoFilter, ListView):
         return moto
 
 
-class TripView(DataMixin, TripRent, DetailView):
+class TripView(DataMixin, TripRent, DateMixin, DetailView):
     model = Trip
     template_name = 'base/tripInfo.html'
     pk_url_kwarg = 'pk'
@@ -188,7 +194,7 @@ class MotoView(DetailView):
     context_object_name = 'moto'
 
 
-class ProfileView(DetailView, DataMixin):
+class ProfileView(DetailView, DateMixin, DataMixin):
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
@@ -198,6 +204,7 @@ class ProfileView(DetailView, DataMixin):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Тур")
         context['prof'] = Profile.objects.get(user=context['object'])
+        context['reservations'] = Reservation.objects.filter(userId=context['object'])
         return dict(list(context.items()) + list(c_def.items()))
 
     def post(self, request, username):

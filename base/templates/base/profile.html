@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<h1>Ваши данные</h1>
   <form method="post">
     {% csrf_token %}
     <h2 class="u-login">Логин: {{ user.username }}</h2>
@@ -58,6 +59,47 @@
         <input type="text" name="number" value="Введите номер телефона"></input>
       </div>  
     {% endif %}
-    <button type="submit">Именить</button>
+    <button type="submit">Изменить</button>
   </form>
+
+  <div class='tours-info'>
+    <div class="soon-tours">
+      <h2>Предстоящие туры</h2>
+      <ul>
+        {% for res in reservations %}
+          {% if res.tourId.dateId.dateStart > view.get_now_day %}
+            <a href="{% url 'trip' res.tourId.pk %}">
+              <li>
+                  <h4>{{res.tourId}}</h4>
+                  <p>{{res.tourId.dateId}}</p>
+                  {% if res.isRentMoto %}
+                    <p>{{res.motoId}}</p>
+                  {% endif %}
+                  <p>{{res.price}}₽</p>
+              </li>
+            </a>
+          {% endif %} 
+        {% endfor %}
+      </ul>
+    </div>   
+    <div class="ended-tours"> 
+      <h2>Завершенные туры</h2>
+      <ul>
+        {% for res in reservations %}
+          {% if res.tourId.dateId.dateStart <= view.get_now_day %}
+            <a href="{% url 'trip' res.tourId.pk %}">
+              <li>
+                  <h4>{{res.tourId}}</h4>
+                  <p>{{res.tourId.dateId}}</p>
+                  {% if res.isRentMoto %}
+                    <p>{{res.motoId}}</p>
+                  {% endif %}
+                  <p>{{res.price}}₽</p>
+              </li>
+            </a>
+          {% endif %} 
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 {% endblock %}

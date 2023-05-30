@@ -20,7 +20,9 @@
                 <ul>
                     {% for t in tour|dictsort:'dateId.dateStart' %}
                         {% if t.available > t.booked %}
-                            <li>{{ t.dateId }}</li>
+                            {% if t.dateId.dateStart > view.get_now_day %}
+                                <li>{{ t.dateId }}</li>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -43,7 +45,6 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/1341/1341578.png" alt="Image">
                 <h3>Группа</h3>
                 <ul>
-                    <li>{{ tour.all.0.available }} участников</li>
                     <li>1 гид</li>
                     <li>1 механик</li>
                 </ul>
@@ -94,7 +95,9 @@
           <ul class="list">
             {% for t in tour|dictsort:'dateId.dateStart' %}
                 {% if t.available > t.booked %}
-                    <li><ins>{{ t.dateId }}</ins></li>
+                    {% if t.dateId.dateStart > view.get_now_day %}
+                        <li><ins>{{ t.dateId }}</ins></li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
           </ul>
@@ -110,7 +113,9 @@
                     <select name="dateId" class="listbox" id="listbox">
                         {% for t in tour|dictsort:'dateId.dateStart' %}
                             {% if t.available > t.booked %}
-                                <option value="{{ t.dateId.pk }}">{{ t.dateId }}</option>
+                                {% if t.dateId.dateStart > view.get_now_day %}
+                                    <option value="{{ t.dateId.pk }}">{{ t.dateId }}</option>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     </select>
