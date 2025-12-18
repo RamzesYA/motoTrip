@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/calendar.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    {% for dt, value in mnths.items %}
+
+        <ul class="tour-list">
+            <li>
+                <h1>{{ dt }}</h1>
+                {% for v in value|dictsort:'dateId.dateStart' %}
+                    <div class="tour-block">
+                        <h3 class="tour-date">{{ v.dateId.dateStart }} - {{ v.dateId.dateFinish }}</h3>
+                        <a href="{% url 'trip' v.tripId.pk %}" class="trip-link"><h3>{{ v.tripId.name }}</h3></a>
+                        <p>Протяженность тура: {{ v.tripId.length}} км</p>
+                        <p>Стоимость: {{ v.tripId.priceWMoto }} рублей</p>
+                        {% if v.available == v.booked %}
+                            <p>Продано</p>
+                        {% else %}
+                            <a href="{% url 'trip' v.tripId.pk %}" class="book-link">Забронировать</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </li>
+        </ul>
+
+    {% endfor %}
+{% endblock %}

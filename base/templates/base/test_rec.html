@@ -1,0 +1,135 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/tripCat.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <h1 align="center">Туры</h1>
+
+    {% if request.user.is_authenticated %}
+    <div class="rec-item">
+        <h2 style="text-align: center">Рекомендации</h2>
+        <ul class="rec-elements">
+            {% if isTest %}
+            <form action="{% url 'tCatalog' %}" method="post">
+                {%csrf_token%}
+                <ul class="test-box">
+                    <li>
+                        Укажите свой опыт езды на мотоцикле
+                        <select name="q1">
+                            <option selected disabled>Выбрать</option>
+                            <option value="0">Базовый</option>
+                            <option value="1">Средний</option>
+                            <option value="2">Профессиональный</option>
+                        </select>
+                    </li>
+                    <li>
+                        Поездки какой протяжённости вы предпочитаете?
+                        <select name="q2">
+                            <option selected disabled>Выбрать</option>
+                            <option value="0">Короткие</option>
+                            <option value="1">Средние</option>
+                            <option value="2">Длинные</option>
+                        </select>
+                    </li>
+                    <li>
+                        Тип путешествия
+                        <select name="q3">
+                            <option selected disabled>Выбрать</option>
+                            <option value="0">Маршрут выходного дня</option>
+                            <option value="1">Многодневные</option>
+                        </select>
+                    </li>
+                </ul>
+                <input type="submit" value="Подобрать">
+            </form>
+                {% if recTrips %}
+                    {% for t in recTrips %}
+                    <li class="rec-element">                
+                        <a href="{{ t.pk }}">
+                            <img src="{{t.image.url}}" alt="Image">
+                            <h3 style="color: black">{{t.name}}</h3>
+                        </a>
+                    </li>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                {% for t in recTrips %}
+                <li class="rec-element">                
+                    <a href="{{ t.pk }}">
+                        <img src="{{t.image.url}}" alt="Image">
+                        <h3 style="color: black">{{t.name}}</h3>
+                    </a>
+                </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    {% else %}
+    <div style="display: flex; flex-direction: column; align-items: center" class="rec-item">
+        <h2 style="text-align: center">Авторизуйтесь для получения рекомендаций!</h2>
+        <div>
+            <a style="text-decoration: none; color: black;" href="{% url 'register' %}">Регистрация</a> | <a style="text-decoration: none; color: black;" href="{% url 'login' %}">Войти</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <form action="{% url 'tCatalog' %}" method="get">
+        <div class="block-search">
+            <ul class="filter_box">
+                <li>Уровень сложности</li>
+                <select name="t_lvl">
+                    <option selected disabled>Выбрать</option>
+                    {% for lvl in view.get_lvl %}
+                        <option value="{{ lvl.0 }}">{{ lvl.1 }}</option>
+                    {% endfor %}
+                </select>
+            </ul>
+            <ul class="filter_box">
+                <li>Длительность</li>
+                <select name="t_duration">
+                    <option selected disabled>Выбрать</option>
+                    {% for duration in view.get_duration %}
+                        <option value="{{ duration }}">{{ duration }}</option>
+                    {% endfor %}
+                </select>
+            </ul>
+            <ul class="filter_box">
+                <li>Тип путешествия</li>
+                <select name="t_type">
+                    <option selected disabled>Выбрать</option>
+                    {% for type in view.get_type %}
+                        <option value="{{ type.0 }}">{{ type.1 }}</option>
+                    {% endfor %}
+                </select>
+            </ul>
+            <input type="submit" value="Найти">
+            <br>
+        </div>
+    </form> 
+    <ul class="cat">
+        {% for trip in object_list %}
+            <li class="elements">
+                <a href="{{ trip.pk }}">
+                    <div class="block-trip">
+                      <div class="image-container">
+                        <img src="{{trip.image.url}}" alt="Image">
+                      </div>
+                      <div class="text-container">
+                        <p class="title">{{trip.name}}</p>
+                        <p class="description">{{trip.description}}</p>
+                        <ul>
+                          <li class="list-item">Продолжительность: {{trip.duration}} дн.</li>
+                          <li class="list-item">Дальность: {{trip.length}} км</li>
+                          <li class="list-item">Цена: {{trip.priceWMoto}}₽</li>
+                        </ul>
+                      </div>
+                    </div>
+                </a>    
+            </li>   
+        {% endfor %}
+    </ul>       
+{% endblock %}

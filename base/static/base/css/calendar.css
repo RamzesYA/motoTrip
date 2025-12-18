@@ -1,0 +1,24 @@
+.tour-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tour-block {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+}
+
+.trip-link {
+    text-decoration: none;
+    color: black;
+}
+
+.book-link {
+    text-decoration: none;
+    color: green;
+}
+
+.tour-date {
+    tex
+}

@@ -1,0 +1,236 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'base/css/statistics.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Статистика по местам в турах</h1>
+
+    <table class="t1">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="2">Общая статистика по местам в турах</td>
+            </tr>
+            <tr class="t-name">
+                <td>Всего мест</td>
+                <td>Забронировано мест</td>
+            </tr>
+            <tr class="t-data">
+                <td>{{all_trip_sum_available.available__sum}}</td>
+                <td>{{all_trip_sum_booked.booked__sum}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table class="t2">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="3">Общая статистика по местам в конкретном туре</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Всего мест</td>
+                <td>Забронировано мест</td>
+            </tr>
+                {% for value in all_trip_sums_byName %}
+                    <tr class="t-data">
+                        <td>{{value.tripId__name}}</td>
+                        <td>{{value.total_a}} </td>
+                        <td>{{value.total_b}}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <table class="t3">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="2">Общая статистика по местам в конкретном туре по периодам</td>
+            </tr>
+            <tr class="t-name">
+                <td colspan="2">В этом месяце</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Забронировано мест</td>
+            </tr>
+                {% for value in trip_sums_byName_byMonth %}
+                    <tr class="t-data">
+                        <td>{{value.tourId__tripId__name}}</td>
+                        <td>{{value.id__count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом Году</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Забронировано мест</td>
+            </tr>
+                {% for value in trip_sums_byName_byYear %}
+                    <tr class="t-data">
+                        <td>{{value.tourId__tripId__name}}</td>
+                        <td>{{value.id__count}} </td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h1 class="text-center">Статистика по переходам на страницу тура</h1>
+
+    <table class="t4">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="2">Количество переходов на страницу туров</td>
+            </tr>
+            <tr class="t-name">
+                <td colspan="2">Сегодня</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Количество переходов</td>
+            </tr>
+                {% for value in click_sums_byName_byDay %}
+                    <tr class="t-data">
+                        <td>{{value.tripId__name}}</td>
+                        <td>{{value.count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом месяце</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Количество переходов</td>
+            </tr>
+                {% for value in click_sums_byName_byMonth %}
+                    <tr class="t-data">
+                        <td>{{value.tripId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом году</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название тура</td>
+                <td>Количество переходов</td>
+            </tr>
+                {% for value in click_sums_byName_byYear %}
+                    <tr class="t-data">
+                        <td>{{value.tripId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h1 class="text-center">Статистика по аренде мотоциклов</h1>
+
+    <table class="t5">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="2">Количество арендованных мотоциклов</td>
+            </tr>
+            <tr class="t-name">
+                <td colspan="2">За все время</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+            </tr>
+                {% for value in all_moto_sums_byName %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом месяце</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+                {% for value in moto_sums_byName_byMonth %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом году</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+                {% for value in moto_sums_byName_byYear %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <table class="t5">
+        <tbody>
+            <tr>
+                <td class="t-title" colspan="2">Количество заявок на аренду мотоциклов</td>
+            </tr>
+            <tr class="t-name">
+                <td colspan="2">За все время</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+            </tr>
+                {% for value in all_moto_sums_byName_0 %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом месяце</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+                {% for value in moto_sums_byName_byMonth_0 %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+            <tr class="t-name">
+                <td colspan="2">В этом году</td>
+            </tr>
+            <tr class="t-name">
+                <td>Название мотоцикла</td>
+                <td>Количество</td>
+            </tr>
+                {% for value in moto_sums_byName_byYear_0 %}
+                    <tr class="t-data">
+                        <td>{{value.motoId__name}}</td>
+                        <td>{{value.total_count}} </td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
