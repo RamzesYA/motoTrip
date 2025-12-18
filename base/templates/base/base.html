@@ -24,6 +24,10 @@
 	            <li><a href="{% url 'mCatalog' %}">Мотоциклы</a></li>
 	            <li><a href="{% url 'tCatalog' %}">Туры</a></li>
 	            <li><a href="{% url 'nCat' %}">Новости</a></li>
+	            <li><a href="{% url 'calendar' %}">Календарь</a></li>
+				{% if request.user.is_superuser %}
+	            	<li><a href="{% url 'staistics' %}">Статистика</a></li>
+				{% endif %}
 	        </ul>
 	    </nav>
 		{% if request.user.is_authenticated %}

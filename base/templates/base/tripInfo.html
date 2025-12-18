@@ -4,14 +4,11 @@
 
 {% block style %}
     <link type="text/css" rel="stylesheet" href="{% static 'base/css/tripInfo.css' %}"/>
+    <meta charset="utf-8">
 {% endblock %}
 
 {% block content %}
     <h1 class="top-block__title">{{ trip.name }}</h1>
-    {% if trip.image %}
-        <div class="top-block" style="background: url('{{trip.image.url}}')"> 
-        </div>
-    {% endif %}
     <div class="list-item">
         <ul class="elements">
             <li class="element">
@@ -139,10 +136,52 @@
         {% else %}
         <h3>БРОНИРОВАНИЕ</h3>
         <li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
-        {% endif %}        
+        {% endif %}
+        <div id="map" class="map" data-json="{{ places }}"></div>
       </div>
-    </div>    
+    </div>
+
+    <div class="rec-item">
+        <h2 style="text-align: center">Рекомендации на основе выбранного тура</h2>
+        <ul class="rec-elements">
+            {% for t in recTrips %}
+            <li class="rec-element">
+                <a href="{{ t.pk }}">
+                    <img src="{{t.image.url}}" alt="Image">
+                    <h3 style="color: black">{{t.name}}</h3>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
+
 {% block script %}
     <script src="{% static 'base/js/tripInfo.js' %}"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=9f3be409-71e3-4fe5-9f81-e5dbff89a88d&lang=ru_RU"></script>
+<!--    <script src="{% static 'base/js/tripMap.js' %}" type="text/javascript"></script>-->
+    <script type="text/javascript">
+        ymaps.ready(function () {
+            var myMap = new ymaps.Map('map', {
+                center: [55.751574, 37.573856],
+                zoom: 9,
+                controls: []
+            });
+
+            // Создание маршрута по трем точкам.
+            // Вторая точка будет транзитной.
+            var multiRoute = new ymaps.multiRouter.MultiRoute({
+                referencePoints:
+                    '{{ trip.places }}'.split(', '),
+                params: {
+                    viaIndexes: [1]
+                }
+            }, {
+                boundsAutoApply: true
+            });
+
+            // Добавление маршрута на карту.
+            myMap.geoObjects.add(multiRoute);
+        });
+    </script>
 {% endblock %}

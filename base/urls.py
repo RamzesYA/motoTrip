@@ -14,4 +14,6 @@ urlpatterns = [
     path('moto/<int:pk>', MotoView.as_view(), name='moto'),
     path('news/', NewsListView.as_view(), name='nCat'),
     path('news/<int:pk>', NewsDetailView.as_view(), name='news'),
+    path('calendar/', CalendarListView.as_view(), name='calendar'),
+    path('statistics/', Statistics.as_view(), name='staistics'),
 ]

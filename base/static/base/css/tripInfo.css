@@ -84,3 +84,71 @@ h3 {
 .elements ul{
     padding-left: 0;
 }
+
+.rec-item {
+    border-radius: 6px;
+    border: 2px solid #1a630f;
+    padding: 8px 0;
+}
+
+.rec-elements {
+    padding: 20px;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rec-elements img{
+    width: 200px;
+    height: 150px;
+}
+
+.rec-elements ul{
+    padding: 20px;
+}
+
+.rec-element {
+    width: 33%;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.rec-element img {
+    display: block;
+    margin: 0 auto;
+}
+
+.rec-element:hover {
+  background-color: #a3e3b4;
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.map {
+	width: 700px;
+	height: 500px;
+	background-color: #333;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+[class*="copyrights-pane"] {
+	display: none !important;
+}
+
+.balloon__address {
+	color: yellow;
+}
+
+.balloon a {
+	color: red;
+}
+
+[class*="balloon__close-button"] {
+	opacity: 1;
+}
+
+.container {
+    display: flex;
+}

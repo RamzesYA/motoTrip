@@ -35,6 +35,7 @@ class Moto(models.Model):
     tankCapacity = models.FloatField(verbose_name='Емкость топливного бака')
     engineCapacity = models.IntegerField(verbose_name='Объем двигателя')
     enginePower = models.FloatField(verbose_name='Мощность двигателя')
+    rentPrice = models.IntegerField(verbose_name='Цена аренды', default=10000)
     image = models.ImageField(upload_to='images/moto', blank=True)
     description = models.TextField(verbose_name='Описание', default=None, null=True)
 
@@ -57,6 +58,7 @@ class Trip(models.Model):
     priceWOMoto = models.IntegerField(verbose_name='Цена на воем мотоцикле', default=None)
     priceWMoto = models.IntegerField(verbose_name='Цена с арендтой мотоцикла', default=None)
     type = models.CharField(max_length=255, choices=TripType.choices(), verbose_name='Тип путешествия', default=None)
+    places = models.TextField(verbose_name='Промежуточные точки', default=None, null=True)
     image = models.ImageField(upload_to='images/trip', blank=True)
 
     def __str__(self):
@@ -153,3 +155,33 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
+
+
+class MotoReservation(models.Model):
+    motoId = models.ForeignKey(Moto, on_delete=models.CASCADE, verbose_name="Мотоцикл")
+    userId = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    time = models.DateTimeField(auto_now_add=True, verbose_name="Время бронирования")
+    days = models.IntegerField(verbose_name='Дни')
+    day = models.DateField(verbose_name='День старта аренды', default=None)
+    isPaid = models.BooleanField(verbose_name='Оплачено', default=False)
+    moreInfo = models.TextField(verbose_name='Дополнительная информация', blank=True)
+
+    def __str__(self):
+        return str(self.motoId)
+
+    class Meta:
+        verbose_name = 'Бронь мотоцикла'
+        verbose_name_plural = 'Бронь мотоциклов'
+
+
+class ToursStats(models.Model):
+    tripId = models.ForeignKey(Trip, on_delete=models.CASCADE, verbose_name="Путешествие")
+    count = models.IntegerField(verbose_name='Кол-во посещений', default=1)
+    date = models.DateField(auto_now_add=True, verbose_name="Время перехода")
+
+    def __str__(self):
+        return  str(self.date) + ' ' + str(self.tripId)
+
+    class Meta:
+        verbose_name = 'Статистика тура'
+        verbose_name_plural = 'Статистика туров'

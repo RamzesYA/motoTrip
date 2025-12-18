@@ -14,6 +14,29 @@
                 <h1 class="block-moto-heading">{{moto.name}}</h1>
                 <p class="block-moto-text">{{moto.description}}</p> 
             </div>
+            <div class="rent">
+                {% if request.user.is_authenticated %}
+                <form method="post">
+                     {% csrf_token %}
+                    <div class="reg-block">
+                        <h3>БРОНИРОВАНИЕ</h3>
+                        <ul>
+                            Кол-во дней:
+                            <input name="days" value=1>
+                        </ul>
+                        <ul>
+                            День старта аренды:
+                            <input type="date" name="day">
+                        </ul>
+                        <input type="submit" value="Забронировать">
+                    </div>
+                </form>
+                {% else %}
+                <h3>БРОНИРОВАНИЕ</h3>
+                <li class="login"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                {% endif %}
+                <div id="map" class="map" data-json="{{ places }}"></div>
+            </div>
         </div>
       <div class="table">
         <table>

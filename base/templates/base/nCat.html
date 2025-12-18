@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-        {% for news in object_list %}
+        {% for news in object_list|dictsort:'date'  %}
             <a href="{{ news.pk }}">
                 <div class="news-block">
                   <h2>{{ news.title }}</h2>
